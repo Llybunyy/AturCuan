@@ -195,12 +195,22 @@
     }
 
     window.onload = function () {
-      const nama = localStorage.getItem('namaPengguna');
-      const avatar = localStorage.getItem('avatarPengguna');
-      if (nama && avatar) {
-        tampilkanHalamanSelamat(nama, avatar);
-      }
-    };
+        const userProfileJSON = localStorage.getItem('userProfile');
+        if (userProfileJSON) {
+          const userProfile = JSON.parse(userProfileJSON);
+          const nama = userProfile.username;
+          const avatar = userProfile.profilePic;
+
+          if (nama && avatar) {
+            tampilkanHalamanSelamat(nama, avatar);
+            return;
+          }
+        }
+        // Kalau data tidak ada, tampilkan form input
+        document.getElementById('formInput').style.display = 'block';
+        document.getElementById('halamanSelamat').style.display = 'none';
+      };
+
   </script>
   
 </body>
