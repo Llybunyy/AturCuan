@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Atur Cuan - Selamat Datang</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #a5d6a7;
+      background-image: 
+        linear-gradient(to bottom, #a5d6a7, #81c784),
+        url("data:image/svg+xml,%3Csvg width='600' height='600' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,100 C150,200 350,0 600,100' stroke='%23004422' stroke-width='0.4' fill='none'/%3E%3C/svg%3E");
+      background-size: cover;
+      background-repeat: repeat;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #e8f5e9;
+      padding: 30px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      width: 100%;
+      max-width: 450px;
+      transition: all 0.3s ease;
+    }
+
+    h1, h2, h3 {
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1.5px solid #81c784;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .avatars {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: 0.3s ease;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .avatar.selected {
+      border-color: #2e7d32;
+      transform: scale(1.1);
+    }
+
+    .btn {
+      padding: 12px 28px;
+      font-size: 16px;
+      background-color: #388e3c;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #2e7d32;
+    }
+
+    .welcome {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      color: #1b5e20;
+    }
+
+    .welcome img {
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 3px solid #66bb6a;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      height: 40px;
+    }
+
+    #btnLanjut {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <img src="img/logo1.jpg" alt="Logo Atur Cuan" class="logo">
+
+  <!-- Form Input -->
+  <div class="container" id="formInput">
+    <h2>Siapa kamu?</h2>
+    <input type="text" id="inputNama" placeholder="Masukkan nama kamu...">
+    
+    <h3>Pilih Avatar:</h3>
+    <div class="avatars">
+      <img src="img/Gambar WhatsApp 2025-05-18 pukul 22.02.31_700bb05a.jpg" class="avatar" onclick="pilihAvatar(this)">
+      <img src="img/Gambar WhatsApp 2025-05-18 pukul 22.02.31_752414c4.jpg" class="avatar" onclick="pilihAvatar(this)">
+      <img src="img/Gambar WhatsApp 2025-05-18 pukul 22.02.31_e2801cb8.jpg" class="avatar" onclick="pilihAvatar(this)">
+      <img src="img/icon2.jpg" class="avatar" onclick="pilihAvatar(this)">
+    </div>
+
+    <button class="btn" id="btnLanjut" onclick="lanjut()">Lanjut</button>
+  </div>
+
+  <!-- Halaman Selamat Datang -->
+  <div class="container welcome" id="halamanSelamat">
+    <img id="avatarDisplay" src="" alt="Avatar">
+    <h1>Halo, <span id="namaDisplay">Kamu</span>!</h1>
+    <p>Selamat datang di <strong>Atur Cuan</strong> 🎉</p>
+    
+    <div style="margin-top: 20px;">
+      <a href="index.html" class="btn" style="margin-right: 10px;">Kembali ke Beranda</a>
+      <a href="rincian.html" class="btn" style="background-color: #2e7d32;">Selanjutnya</a>
+    </div>
+  </div>
+
+  <script>
+    let avatarTerpilih = null;
+
+    function pilihAvatar(el) {
+      document.querySelectorAll('.avatar').forEach(img => img.classList.remove('selected'));
+      el.classList.add('selected');
+      avatarTerpilih = el.src;
+      cekForm();
+    }
+
+    function cekForm() {
+      const nama = document.getElementById('inputNama').value.trim();
+      const tombol = document.getElementById('btnLanjut');
+      if (nama && avatarTerpilih) {
+        tombol.style.display = 'inline-block';
+      } else {
+        tombol.style.display = 'none';
+      }
+    }
+
+    document.getElementById('inputNama').addEventListener('input', cekForm);
+
+    function lanjut() {
+      const nama = document.getElementById('inputNama').value.trim();
+
+      // Simpan ke LocalStorage
+      localStorage.setItem('namaPengguna', nama);
+      localStorage.setItem('avatarPengguna', avatarTerpilih);
+
+      tampilkanHalamanSelamat(nama, avatarTerpilih);
+    }
+
+    function tampilkanHalamanSelamat(nama, avatar) {
+      document.getElementById('formInput').style.display = 'none';
+      document.getElementById('halamanSelamat').style.display = 'flex';
+      document.getElementById('namaDisplay').textContent = nama;
+      document.getElementById('avatarDisplay').src = avatar;
+    }
+
+    window.onload = function () {
+      const nama = localStorage.getItem('namaPengguna');
+      const avatar = localStorage.getItem('avatarPengguna');
+      if (nama && avatar) {
+        tampilkanHalamanSelamat(nama, avatar);
+      }
+    };
+  </script>
+  
+</body>
+</html>

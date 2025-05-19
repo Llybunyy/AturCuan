@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wishlist - Atur Cuan</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#38556c, #58eecb);
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .back-button {
+      align-self: flex-start;
+      text-decoration: none;
+      background-color: #ffffff;
+      color: #3aafa9;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .back-button:hover {
+      background-color: #e0f4f1;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.2rem;
+    }
+
+    .wishlist-form {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      padding: 1.5rem;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .wishlist-form input, .wishlist-form button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.8rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    .wishlist-form input {
+      background: #ffffff;
+      color: #333;
+    }
+
+    .wishlist-form button {
+      background: #007f72;
+      color: #fff;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .wishlist-form button:hover {
+      background: #005f56;
+    }
+
+    .wishlist-list {
+      display: grid;
+      gap: 1rem;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .wishlist-item {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 1rem 1.2rem;
+      border-radius: 18px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      animation: fadeIn 0.5s ease;
+      transition: transform 0.2s ease;
+    }
+
+    .wishlist-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .wishlist-item h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .wishlist-item p {
+      margin: 0.3rem 0;
+      color: #d8fafa;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: #dffaf2;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: #00d6a3;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tombol Kembali -->
+  <a href="index.html" class="back-button">⬅ Kembali ke Beranda</a>
+
+  <h1>💡 Wishlist Impianmu</h1>
+
+  <div class="wishlist-form">
+    <input type="text" id="goal" placeholder="Tujuan (contoh: Dana Darurat)" />
+    <input type="number" id="target" placeholder="Target Nominal (contoh: 10000000)" />
+    <input type="number" id="progress" placeholder="Tabungan saat ini (contoh: 4000000)" />
+    <input type="date" id="deadline" />
+    <button onclick="addWishlist()">+ Tambahkan Wishlist</button>
+  </div>
+
+  <div class="wishlist-list" id="wishlistList">
+    <!-- Wishlist items muncul di sini -->
+  </div>
+
+  <script>
+    function addWishlist() {
+      const goal = document.getElementById("goal").value;
+      const target = parseInt(document.getElementById("target").value);
+      const progress = parseInt(document.getElementById("progress").value);
+      const deadline = document.getElementById("deadline").value;
+
+      if (!goal || isNaN(target) || isNaN(progress) || !deadline) {
+        alert("Harap isi semua data dengan benar.");
+        return;
+      }
+
+      const percentage = Math.min((progress / target) * 100, 100).toFixed(1);
+
+      const item = document.createElement("div");
+      item.className = "wishlist-item";
+      item.innerHTML = `
+        <h3>🎯 ${goal}</h3>
+        <p>Target: Rp ${target.toLocaleString()}</p>
+        <p>Tabungan Saat Ini: Rp ${progress.toLocaleString()} (${percentage}%)</p>
+        <p>📆 Deadline: ${deadline}</p>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" style="width: ${percentage}%;"></div>
+        </div>
+      `;
+
+      document.getElementById("wishlistList").appendChild(item);
+
+      document.getElementById("goal").value = "";
+      document.getElementById("target").value = "";
+      document.getElementById("progress").value = "";
+      document.getElementById("deadline").value = "";
+    }
+  </script>
+
+</body>
+</html>

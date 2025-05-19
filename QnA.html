@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Help Desk - Atur Cuan</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #264653, #2a9d8f);
+      color: #fff;
+      padding: 2rem;
+    }
+    .back-button {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .faq-item {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .faq-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .faq-answer {
+      display: none;
+      padding-top: 0.5rem;
+      color: #d3e0ea;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-button">&larr; Kembali Ke Beranda</a>
+
+  <h1>FAQ - Atur Cuan</h1>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <strong>📘 Bagaimana cara menggunakan Buku Panduan?</strong>
+    <div class="faq-answer">Buku Panduan berisi penjelasan lengkap fitur-fitur Atur Cuan. Akses melalui menu utama > Buku Panduan.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <strong>💡 Apa isi dari menu Tips?</strong>
+    <div class="faq-answer">Menu Tips berisi saran pengelolaan keuangan.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <strong>🧮 Bagaimana cara pakai Kalkulator Keuangan?</strong>
+    <div class="faq-answer">Masuk ke fitur Kalkulator untuk menghitung yang kamu inginkan dan isi datanya. Hasil akan muncul otomatis.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <strong>📊 Apa fungsi menu Rincian & Diagram?</strong>
+    <div class="faq-answer">Menu ini menampilkan detail pengeluaran/pemasukan mingguan dan bulanan yang divisualisasinya dalam bentuk grafik.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <strong>📝 Apa itu Wishlist dan bagaimana cara memakainya?</strong>
+    <div class="faq-answer">Wishlist adalah daftar keinginan keuanganmu (misalnya beli laptop). Kamu bisa set target, nominal, dan tenggat waktu.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <strong>💰 Apa itu Total Tabungan dan   bagaimana cara memakainya??</strong>
+    <div class="faq-answer">Total Tabungan yaitu simulasi tabungan harian dimana nantinya kamu set hari dan isi datanya. Hasilnya akan muncul otomatis nan nantinya akan disertakan juga dalam bentuk grafik dan tabel.</div>
+  </div>
+
+  <script>
+    function toggleFaq(el) {
+      el.classList.toggle("active");
+    }
+  </script>
+
+</body>
+</html>

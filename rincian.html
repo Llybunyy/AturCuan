@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atur Cuan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { margin: 0; background: #4cad90, #58eecb; padding: 20px; color: #333; }
+    .container { display: flex; flex-direction: column; gap: 20px; }
+    .calendar-section, .summary-section, .form-section, .notes-section { background: rgb(119, 216, 211); padding: 20px; border-radius: 16px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+    .calendar-input { margin-top: 10px; font-size: 16px; padding: 5px; }
+    .main { display: flex; flex-wrap: wrap; gap: 20px; }
+    .left, .right { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px; }
+    .summary-cards { display: flex; gap: 10px; justify-content: space-around; flex-wrap: wrap; }
+    .card { padding: 15px; border-radius: 12px; background: #ecfdf5; text-align: center; flex: 1; min-width: 100px; }
+    .category-section { display: flex; flex-wrap: wrap; gap: 10px; }
+    .category { cursor: pointer; padding: 10px; background: #e0e3f7; border-radius: 12px; text-align: center; width: 100px; }
+    .category.selected { background: #bbf7d0; }
+    .calculator, .selected-category { text-align: center; }
+    .calculator { background: #38556c; padding: 15px; border-radius: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .calculator input { grid-column: span 4; text-align: right; padding: 10px; font-size: 20px; border: none; background: #f3f4f6; border-radius: 10px; }
+    .calculator button { padding: 10px; font-size: 18px; border: none; background: #d1fae5; border-radius: 10px; cursor: pointer; }
+    .note-item { background: #f9fafb; padding: 10px; border-radius: 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
+    .undo-btn { margin-left: 10px; color: rgb(65, 143, 176); cursor: pointer; font-size: 14px; }
+    .note-header { font-weight: bold; margin-top: 20px; }
+    
+  </style>
+  
+</head>
+
+<body>
+  
+   <a href="index.html" class="back-button">&larr; Kembali ke beranda</a>
+
+  <div class="container">
+    <div class="calendar-section">
+      <label for="date">Pilih Tanggal:</label>
+      <input type="date" id="date" class="calendar-input" />
+      <div id="day-display">Hari: -</div>
+    </div>
+
+    <div class="main">
+      <div class="left">
+        <div class="summary-section">
+          <div class="summary-cards">
+            <div class="card" id="total">
+              <h3>💰 Total<br>Rp 0</h3>
+            </div>
+            <div class="card" id="pengeluaran">
+              <h3>🔴 Pengeluaran<br>Rp 0</h3>
+            </div>
+            <div class="card" id="pemasukan">
+              <h3>🟢 Pemasukan<br>Rp 0</h3>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="selected-category" id="selectedCategory">(Pilih kategori terlebih dahulu)</div>
+          <div class="calculator">
+            <input type="text" id="calcDisplay" readonly value="Rp 0" />
+            <button onclick="appendCalc('1')">1</button><button onclick="appendCalc('2')">2</button><button
+              onclick="appendCalc('3')">3</button><button onclick="appendCalc('+')">+</button>
+            <button onclick="appendCalc('4')">4</button><button onclick="appendCalc('5')">5</button><button
+              onclick="appendCalc('6')">6</button><button onclick="appendCalc('-')">-</button>
+            <button onclick="appendCalc('7')">7</button><button onclick="appendCalc('8')">8</button><button
+              onclick="appendCalc('9')">9</button><button onclick="appendCalc('*')">×</button>
+            <button onclick="appendCalc('0')">0</button><button onclick="appendCalc('.')">.</button><button
+              onclick="calculate()">=</button><button onclick="appendCalc('/')">÷</button>
+            <button onclick="clearCalc()" style="grid-column: span 4; background: #fecaca;">C</button>
+          </div>
+          <button onclick="tambahCatatan()">+ Tambah</button>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="form-section">
+          <div>
+            <button onclick="toggleJenis('pengeluaran')">🔴 Pengeluaran</button>
+            <button onclick="toggleJenis('pemasukan')">🟢 Pemasukan</button>
+          </div>
+          <div class="category-section" id="kategoriList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes-section">
+      <h3>Catatan Hari Ini</h3>
+      <div id="notesToday"></div>
+      <h3>Semua Catatan Anda</h3>
+      <div id="notesAll"></div>
+    </div>
+  </div>
+
+  <script>
+    const kategoriPengeluaran = [
+      { name: 'Transportasi', icon: '🚗' }, { name: 'Belanja', icon: '🛍️' },
+      { name: 'Makan', icon: '🍽️' }, { name: 'Kecantikan', icon: '💄' },
+      { name: 'Perawatan', icon: '🧖' }, { name: 'Kesehatan', icon: '💊' },
+      { name: 'Kebutuhan Pokok', icon: '📦' }, { name: 'Hiburan', icon: '🎮' },
+      { name: 'Tagihan', icon: '🧾' }, { name: 'Tiket', icon: '🎟️' },
+      { name: 'Olahraga', icon: '🏃‍♂️' }
+    ];
+    const kategoriPemasukan = [
+      { name: 'Investasi', icon: '📈' }, { name: 'Uang saku', icon: '💰' },
+      { name: 'Kerja paruh waktu', icon: '👨‍💻' }, { name: 'Affiliate', icon: '🔗' }
+    ];
+
+    let selectedJenis = 'pengeluaran';
+    let selectedKategori = null;
+    let notes = {};
+    let lastDeleted = null;
+    let calcStr = '';
+
+    // ⬇ Load dari localStorage saat pertama kali
+    if (localStorage.getItem('catatanKeuangan')) {
+      notes = JSON.parse(localStorage.getItem('catatanKeuangan'));
+    }
+
+    function simpanKeLocalStorage() {
+      localStorage.setItem('catatanKeuangan', JSON.stringify(notes));
+    }
+
+    function toggleJenis(jenis) {
+      selectedJenis = jenis;
+      selectedKategori = null;
+      document.getElementById('selectedCategory').innerText = '(Pilih kategori terlebih dahulu)';
+      renderKategori();
+    }
+
+    function renderKategori() {
+      const list = selectedJenis === 'pengeluaran' ? kategoriPengeluaran : kategoriPemasukan;
+      const container = document.getElementById('kategoriList');
+      container.innerHTML = '';
+      list.forEach(k => {
+        const div = document.createElement('div');
+        div.className = 'category';
+        div.innerText = `${k.icon}\n${k.name}`;
+        div.onclick = () => {
+          selectedKategori = k;
+          document.getElementById('selectedCategory').innerText = `${k.icon} ${k.name}`;
+          renderKategori();
+        }
+        if (selectedKategori?.name === k.name) div.classList.add('selected');
+        container.appendChild(div);
+      });
+    }
+
+    function appendCalc(val) {
+      calcStr += val;
+      document.getElementById('calcDisplay').value = 'Rp ' + calcStr;
+    }
+    function clearCalc() {
+      calcStr = '';
+      document.getElementById('calcDisplay').value = 'Rp 0';
+    }
+    function calculate() {
+      try {
+        calcStr = eval(calcStr).toString();
+        document.getElementById('calcDisplay').value = 'Rp ' + calcStr;
+      } catch {
+        alert('Perhitungan salah');
+      }
+    }
+
+    document.getElementById('date').addEventListener('change', () => {
+      updateDayName();
+      renderNotes();
+    });
+
+    function tambahCatatan() {
+      const date = document.getElementById('date').value;
+      if (!date || !selectedKategori || !calcStr) return alert('Lengkapi data');
+      const nominal = parseFloat(eval(calcStr));
+      if (!notes[date]) notes[date] = [];
+      const entry = { kategori: selectedKategori, jenis: selectedJenis, nominal };
+      notes[date].push(entry);
+      simpanKeLocalStorage(); // Simpan setelah menambah
+      renderNotes();
+      clearCalc();
+    }
+
+    function renderNotes() {
+      const selectedDate = document.getElementById('date').value;
+      const notesToday = document.getElementById('notesToday');
+      const notesAll = document.getElementById('notesAll');
+      notesToday.innerHTML = '';
+      notesAll.innerHTML = '';
+
+      let totalToday = 0, keluarToday = 0, masukToday = 0;
+      let totalAll = 0;
+
+      Object.keys(notes).forEach(date => {
+        const isToday = date === selectedDate;
+        const items = notes[date];
+        if (items.length === 0) return;
+
+        let container = document.createElement('div');
+        container.innerHTML = `<div class='note-header'>${getDayName(date)}, ${date}</div>`;
+
+        items.forEach((item, i) => {
+          const div = document.createElement('div');
+          div.className = 'note-item';
+          div.innerHTML = `<span>${item.jenis === 'pengeluaran' ? '🔴' : '🟢'} ${item.kategori.icon} ${item.kategori.name} - Rp ${item.nominal}</span>
+            <span><button onclick="hapus('${date}', ${i})">❌</button></span>`;
+          container.appendChild(div);
+
+          if (isToday) {
+            if (item.jenis === 'pengeluaran') keluarToday += item.nominal;
+            else masukToday += item.nominal;
+          }
+          totalAll += item.jenis === 'pemasukan' ? item.nominal : -item.nominal;
+        });
+
+        if (isToday) notesToday.appendChild(container);
+        notesAll.appendChild(container.cloneNode(true));
+      });
+
+      totalToday = masukToday - keluarToday;
+      document.getElementById('total').innerHTML = `<h3>💰 Total<br>Rp ${totalToday}</h3>`;
+      document.getElementById('pengeluaran').innerHTML = `<h3>🔴 Pengeluaran<br>Rp ${keluarToday}</h3>`;
+      document.getElementById('pemasukan').innerHTML = `<h3>🟢 Pemasukan<br>Rp ${masukToday}</h3>`;
+    }
+
+    function hapus(date, index) {
+      lastDeleted = notes[date][index];
+      notes[date].splice(index, 1);
+      simpanKeLocalStorage(); // Simpan setelah hapus
+      renderNotes();
+      const list = document.getElementById('notesToday');
+      const undo = document.createElement('div');
+      undo.className = 'undo-btn';
+      undo.innerText = 'Undo penghapusan';
+      undo.onclick = () => {
+        notes[date].push(lastDeleted);
+        lastDeleted = null;
+        simpanKeLocalStorage(); // Simpan saat undo
+        renderNotes();
+      }
+      list.appendChild(undo);
+    }
+
+    function getDayName(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('id-ID', { weekday: 'long' });
+    }
+
+    function updateDayName() {
+      const date = document.getElementById('date').value;
+      if (date) {
+        const hari = getDayName(date);
+        document.getElementById('day-display').innerText = `Hari: ${hari}`;
+      } else {
+        document.getElementById('day-display').innerText = 'Hari: -';
+      }
+    }
+document.addEventListener('keydown', (e) => {
+  const key = e.key;
+
+  if (!isNaN(key)) {
+    // Jika angka ditekan
+    appendCalc(key);
+  } else if (['+', '-', '*', '/'].includes(key)) {
+    appendCalc(key);
+  } else if (key === 'Enter') {
+    calculate();
+  } else if (key === 'Backspace') {
+    // Hapus karakter terakhir dari calcStr
+    calcStr = calcStr.slice(0, -1);
+    document.getElementById('calcDisplay').value = calcStr ? 'Rp ' + calcStr : 'Rp 0';
+  } else if (key === '.' || key === ',') {
+    appendCalc('.');
+  } else if (key.toLowerCase() === 'c') {
+    clearCalc();
+  }
+});
+
+    // Inisialisasi
+    renderKategori();
+    renderNotes();
+  </script>
+</body>
+
+</html>

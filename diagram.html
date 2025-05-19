@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grafik Pengeluaran</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #5FC9AA;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 800px;
+    }
+    canvas {
+      margin-top: 20px;
+    }
+    .info {
+      margin-top: 20px;
+      font-size: 1.2em;
+      text-align: center;
+    }
+    .input-form {
+      text-align: center;
+      margin-top: 20px;
+    }
+    select, input[type="number"] {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .back-button {
+      display: inline-block;
+      margin: 20px;
+      text-decoration: none;
+      background-color: #ffffff;
+      color: #5FC9AA;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    .back-button:hover {
+      background-color: #e0f2ef;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-button">⬅ Kembali ke Beranda</a>
+
+  <div class="container">
+    <h2 style="text-align:center">Grafik Pengeluaran Bulanan</h2>
+    <canvas id="pengeluaranChart"></canvas>
+    <div class="info" id="info"></div>
+
+    <div class="input-form">
+      <select id="kategoriBulanan">
+        <option value="">Pilih Kategori</option>
+      </select>
+      <input type="number" id="nominalBulanan" placeholder="Jumlah Pengeluaran">
+      <button onclick="tambahBulanan()">Tambah</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 style="text-align:center">Grafik Pengeluaran Mingguan</h2>
+    <canvas id="mingguanChart"></canvas>
+    <div class="info" id="mingguanInfo"></div>
+
+    <div class="input-form">
+      <select id="kategoriMingguan">
+        <option value="">Pilih Kategori</option>
+      </select>
+      <input type="number" id="nominalMingguan" placeholder="Jumlah Pengeluaran">
+      <button onclick="tambahMingguan()">Tambah</button>
+    </div>
+  </div>
+
+  <script>
+    const kategoriPengeluaran = [
+      { name: 'Transportasi', icon: '🚗' }, { name: 'Belanja', icon: '🛍️' },
+      { name: 'Makan', icon: '🍽️' }, { name: 'Kecantikan', icon: '💄' },
+      { name: 'Perawatan', icon: '🧖' }, { name: 'Kesehatan', icon: '💊' },
+      { name: 'Kebutuhan Pokok', icon: '📦' }, { name: 'Hiburan', icon: '🎮' },
+      { name: 'Tagihan', icon: '🧾' }, { name: 'Tiket', icon: '🎟️' },
+      { name: 'Olahraga', icon: '🏃‍♂️' }
+    ];
+    const kategoriPemasukan = [
+      { name: 'Investasi', icon: '📈' }, { name: 'Uang saku', icon: '💰' },
+      { name: 'Kerja paruh waktu', icon: '👨‍💻' }, { name: 'Affiliate', icon: '🔗' }
+    ];
+
+    function isiDropdownKategori() {
+      const selectBulanan = document.getElementById('kategoriBulanan');
+      const selectMingguan = document.getElementById('kategoriMingguan');
+
+      kategoriPengeluaran.forEach(k => {
+        const option = document.createElement('option');
+        option.value = `${k.icon} ${k.name}`;
+        option.textContent = `${k.icon} ${k.name}`;
+        selectBulanan.appendChild(option);
+      });
+
+      kategoriPemasukan.forEach(k => {
+        const option = document.createElement('option');
+        option.value = `${k.icon} ${k.name}`;
+        option.textContent = `${k.icon} ${k.name}`;
+        selectMingguan.appendChild(option);
+      });
+    }
+
+    // === Bulanan ===
+    const ctxBulanan = document.getElementById('pengeluaranChart').getContext('2d');
+    const chartBulanan = new Chart(ctxBulanan, {
+      type: 'doughnut',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Pengeluaran Bulanan',
+          data: [],
+          backgroundColor: [],
+        }]
+      },
+      options: {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: context => `${context.label}: Rp ${context.raw.toLocaleString('id-ID')}`
+            }
+          }
+        }
+      }
+    });
+
+    function updateInfoBulanan() {
+      const data = chartBulanan.data.datasets[0].data;
+      const labels = chartBulanan.data.labels;
+
+      if (data.length === 0) {
+        document.getElementById('info').innerText = '';
+        return;
+      }
+
+      const max = Math.max(...data);
+      const min = Math.min(...data);
+      const maxIdx = data.indexOf(max);
+      const minIdx = data.indexOf(min);
+
+      document.getElementById('info').innerText =
+        `Tertinggi: ${labels[maxIdx]} (Rp ${max.toLocaleString('id-ID')}) | ` +
+        `Terendah: ${labels[minIdx]} (Rp ${min.toLocaleString('id-ID')})`;
+    }
+
+    function tambahBulanan() {
+      const kategori = document.getElementById('kategoriBulanan').value;
+      const nominal = parseInt(document.getElementById('nominalBulanan').value);
+
+      if (kategori && !isNaN(nominal) && nominal > 0) {
+        chartBulanan.data.labels.push(kategori);
+        chartBulanan.data.datasets[0].data.push(nominal);
+        chartBulanan.data.datasets[0].backgroundColor.push(`hsl(${Math.random() * 360}, 70%, 60%)`);
+        chartBulanan.update();
+        updateInfoBulanan();
+
+        document.getElementById('kategoriBulanan').value = '';
+        document.getElementById('nominalBulanan').value = '';
+      } else {
+        alert("Isi kategori dan nominal yang valid.");
+      }
+    }
+
+    // === Mingguan ===
+    const ctxMingguan = document.getElementById('mingguanChart').getContext('2d');
+    const chartMingguan = new Chart(ctxMingguan, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Pengeluaran Mingguan',
+          data: [],
+          borderColor: 'rgba(153, 102, 255, 1)',
+          backgroundColor: 'rgba(153, 102, 255, 0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: value => 'Rp ' + value.toLocaleString('id-ID')
+            }
+          }
+        }
+      }
+    });
+
+    function updateInfoMingguan() {
+      const data = chartMingguan.data.datasets[0].data;
+      const labels = chartMingguan.data.labels;
+
+      if (data.length === 0) {
+        document.getElementById('mingguanInfo').innerText = '';
+        return;
+      }
+
+      const max = Math.max(...data);
+      const maxIdx = data.indexOf(max);
+      document.getElementById('mingguanInfo').innerText =
+        `Hari/Kegiatan paling boros: ${labels[maxIdx]} (Rp ${max.toLocaleString('id-ID')})`;
+    }
+
+    function tambahMingguan() {
+      const kategori = document.getElementById('kategoriMingguan').value;
+      const nominal = parseInt(document.getElementById('nominalMingguan').value);
+
+      if (kategori && !isNaN(nominal) && nominal > 0) {
+        chartMingguan.data.labels.push(kategori);
+        chartMingguan.data.datasets[0].data.push(nominal);
+        chartMingguan.update();
+        updateInfoMingguan();
+
+        document.getElementById('kategoriMingguan').value = '';
+        document.getElementById('nominalMingguan').value = '';
+      } else {
+        alert("Isi kategori dan nominal yang valid.");
+      }
+    }
+
+    // Jalankan saat halaman dimuat
+    window.onload = () => {
+      isiDropdownKategori();
+    };
+  </script>
+</body>
+</html>

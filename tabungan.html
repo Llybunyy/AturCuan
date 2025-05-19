@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simulasi Tabungan Harian</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: linear-gradient(135deg, #38556c, #58eecb);
+      color: #ffffff;
+    }
+    h1 {
+      color: #d2dad8;
+    }
+    h2 {
+      color: #2f504a;
+    }
+    input[type="number"] {
+      width: 60px;
+      padding: 4px;
+    }
+    table, th, td {
+      border: 1px solid;
+      border-collapse: collapse;
+      padding: 6px;
+      text-align: center;
+    }
+    table {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+    #chart {
+      margin-top: 30px;
+      border: 1px solid #81c784;
+      background: rgb(255, 255, 255);
+      padding: 10px;
+    }
+    .btn {
+      padding: 6px 12px;
+      background: #25433b;
+      color: white;
+      border: none;
+      margin: 10px 5px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #147575;
+    }
+  </style>
+</head>
+ <style>
+.back-button {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(218, 214, 214, 0.15);
+      color: #4f9a97;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .back-button:hover {
+      background: rgb(26, 46, 37);
+    }
+    </style>
+<a href="index.html" class="back-button">&larr; Kembali ke Beranda</a>
+
+<body>
+
+  <h1>Simulasi Tabungan Harian</h1>
+
+  <label for="days">Jumlah Hari: </label>
+  <input type="number" id="days" min="1" value="7">
+  <button class="btn" onclick="generateInputs()">Mulai</button>
+
+  <div id="inputs"></div>
+
+  <h2>💰 Total Tabungan: <span id="total">Rp 0</span></h2>
+
+  <div id="chart"></div>
+
+  <div id="table"></div>
+
+  <script>
+    let inputFields = [];
+
+    function generateInputs() {
+      const days = parseInt(document.getElementById('days').value);
+      const inputsDiv = document.getElementById('inputs');
+      inputsDiv.innerHTML = '<h2>Masukkan Tabungan Harian:</h2>';
+      inputFields = [];
+
+      for (let i = 0; i < days; i++) {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.placeholder = `Hari ${i + 1}`;
+        input.dataset.index = i;
+        input.addEventListener('input', updateResults);
+        inputsDiv.appendChild(input);
+        inputFields.push(input);
+      }
+
+      updateResults();
+    }
+
+    function updateResults() {
+      let total = 0;
+      let cumulative = [];
+      let daily = [];
+
+      inputFields.forEach((input, index) => {
+        const value = parseInt(input.value) || 0;
+        total += value;
+        daily.push(value);
+        cumulative.push(index === 0 ? value : cumulative[index - 1] + value);
+      });
+
+      document.getElementById('total').textContent = formatRupiah(total);
+      drawChart(cumulative);
+      drawTable(daily, cumulative);
+    }
+
+    function drawTable(daily, cumulative) {
+      let html = '<h2>📋 Tabel Tabungan Harian</h2>';
+      html += '<table><tr><th>Hari</th><th>Tabungan</th><th>Total Kumulatif</th></tr>';
+      daily.forEach((val, i) => {
+        html += `<tr><td>${i + 1}</td><td>${formatRupiah(val)}</td><td>${formatRupiah(cumulative[i])}</td></tr>`;
+      });
+      html += '</table>';
+      document.getElementById('table').innerHTML = html;
+    }
+
+    function drawChart(data) {
+      const width = 600, height = 300, padding = 40;
+      const max = Math.max(...data, 100);
+      const stepX = (width - padding * 2) / (data.length - 1 || 1);
+      const scaleY = (height - padding * 2) / max;
+
+      let points = data.map((val, i) => {
+        const x = padding + i * stepX;
+        const y = height - padding - val * scaleY;
+        return [x, y];
+      });
+
+      let path = "M " + points.map(p => p.join(",")).join(" L ");
+
+      let svg = `<svg width="${width}" height="${height}">`;
+
+      // Grid horizontal
+      for (let i = 0; i <= 5; i++) {
+        const y = padding + i * ((height - 2 * padding) / 5);
+        svg += `<line x1="${padding}" y1="${y}" x2="${width - padding}" y2="${y}" stroke="#c8e6c9" stroke-width="1" />`;
+        const label = Math.round(max - i * (max / 5));
+        svg += `<text x="5" y="${y + 5}" font-size="12">${formatRupiah(label)}</text>`;
+      }
+
+      // Titik hari
+      points.forEach((p, i) => {
+        svg += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#2e7d32" />`;
+        svg += `<text x="${p[0] - 5}" y="${height - 10}" font-size="12">H${i + 1}</text>`;
+      });
+
+      // Garis utama
+      svg += `<path d="${path}" fill="none" stroke="#388e3c" stroke-width="3" />`;
+
+      svg += '</svg>';
+
+      document.getElementById('chart').innerHTML = '<h2>📈 Grafik Pertumbuhan</h2>' + svg;
+    }
+
+    function formatRupiah(value) {
+      return 'Rp ' + value.toLocaleString('id-ID');
+    }
+
+    window.onload = generateInputs;
+  </script>
+
+</body>
+</html>

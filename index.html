@@ -1,0 +1,274 @@
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atur Cuan</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #38556c, #58eecb);
+      color: white;
+      text-align: center;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 40px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .menu {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      color: black;
+      min-width: 150px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-left: -80px;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .dropdown-content div {
+      padding: 10px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .dropdown-content div:hover {
+      background-color: #ddd;
+    }
+    .btn-primary {
+      margin-top: 30px;
+      padding: 15px 30px;
+      border: 2px solid white;
+      border-radius: 30px;
+      background-color: transparent;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .description {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: white;
+      color: black;
+      border-top-left-radius: 60px;
+      border-top-right-radius: 60px;
+    }
+    .description p {
+      animation: fadeInUp 2s ease-in-out forwards;
+      opacity: 0;
+    }
+    .description p:nth-child(2) {
+      animation-delay: 1s;
+    }
+    .description p:nth-child(3) {
+      animation-delay: 2s;
+    }
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    .avatar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .footer {
+      background: linear-gradient(135deg, #38556c, #58eecb);
+      color: white;
+      padding: 60px 30px;
+      position: relative;
+    }
+    .footer h2 {
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .feature-box {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 20px;
+      width: 250px;
+      text-align: left;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .feature-box:hover {
+      transform: translateY(-5px);
+    }
+    .feature-box p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .typing-box {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .typing {
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid white;
+  animation:
+    typing 4s steps(40, end) forwards,
+    blink .75s step-end infinite,
+    move 5s linear 4s infinite;
+  animation-fill-mode: forwards;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+@keyframes move {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100px); }
+}
+
+    .wave {
+      margin-top: -10px;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="img/logo1.jpg" alt="Logo" style="height: 40px" />
+      <strong>ATUR CUAN</strong>
+    </div>
+    <div class="menu">
+      <div class="dropdown">
+        <span>📖 PANDUAN</span>
+        <div class="dropdown-content">
+      <a href="panduan.html" style="text-decoration: none; color: inherit;">
+          <div>📘 Buku Panduan</div>
+      <a href="tips.html" style="text-decoration: none; color: inherit;">
+          <div>💡 Tips</div>
+        </div>
+      </div>
+      <div class="dropdown">
+        <span>👤 Akun</span>
+        <div class="dropdown-content">
+    <a href="Akunsaya.html" style="text-decoration: none; color: inherit;">
+          <div>⚙️ Akun Saya</div>
+        </div>
+      </div>
+      <div class="dropdown">
+        <span>❓ HELP</span>
+        <div class="dropdown-content">
+    <a href="hubungikami.html" style="text-decoration: none; color: inherit;">
+          <div>☎️ Hubungi kami</div>
+    <a href="QnA.html" style="text-decoration: none; color: inherit;">
+          <div>💬 QnA</div>
+        </div>
+      </div>
+      <div class="dropdown">
+        <span>⋮ FITUR</span>
+        <div class="dropdown-content">
+  <a href="wishlist.html" style="text-decoration: none; color: inherit;">
+    <div>📝 Wishlist</div>
+  </a>
+  <a href="tabungan.html" style="text-decoration: none; color: inherit;">
+    <div>💰 Tabungan</div>
+  </a>
+  <a href="kalkulator.html" style="text-decoration: none; color: inherit;">
+    <div>🧮 Kalkulator</div>
+  </a>
+  <a href="rincian.html" style="text-decoration: none; color: inherit;">
+    <div>🧾 Rincian</div>
+  </a>
+  <a href="diagram.html" style="text-decoration: none; color: inherit;">
+    <div>📊 Diagram</div>
+  </a>
+</div>
+
+  </header>
+
+  <main>
+    <h1 style="margin-top: 60px; font-size: 36px; font-weight: bold">ATUR CUAN</h1>
+    <p style="font-size: 24px; margin: 0">“ Atur Uangmu<br> Raih Mimpimu”</p>
+    <button class="btn-primary" onclick="goToCatatan ()">BUAT CATATAN ANDA</button>
+  </main>
+
+  <section class="description">
+    <p>Pastikan prioritasmu sejalan dengan impian dan tujuan finansialmu.</p>
+    <p>Atur uangmu sebaik mungkin.</p>
+    <p>Gunakan uangmu untuk membangun kehidupan yang berarti dan penuh makna.</p>
+  </section>
+
+  <div class="wave">
+    <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#ffffff" fill-opacity="1" d="M0,160L60,149.3C120,139,240,117,360,106.7C480,96,600,96,720,106.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+    </svg>
+  </div>
+
+  <footer class="footer">
+    <h2>Kenapa memilih Atur Cuan?</h2>
+    <div class="features">
+      <div class="feature-box">
+        <p>✅ Sederhana dan mudah digunakan untuk semua kalangan.</p>
+      </div>
+      <div class="feature-box">
+        <p>✅ Cocok untuk pelajar, mahasiswa, hingga pekerja profesional.</p>
+      </div>
+      <div class="feature-box">
+        <p>✅ Data kamu aman dan tersimpan dengan baik.</p>
+      </div>
+    </div>
+    <div class="typing-box">
+      <span class="typing">Yuk mulai atur keuanganmu hari ini!</span>
+    </div>
+  </footer>
+
+<script>
+  function goToCatatan() {
+    window.location.href = "dalamcatatan.html"; // langsung pindah tanpa login
+  }
+</script>
+
+</body>
+</html>

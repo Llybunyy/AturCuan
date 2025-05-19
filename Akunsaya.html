@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Akun Saya</title>
+  <style>
+    :root {
+      --primary-green: #a2c3e9;
+      --primary-green-light: #38556c, #58eecb;
+      --primary-green-dark: #86d4e7;
+      --background-start: #82a5f1;
+      --background-end: #5ebd85;
+      --white: #fff;
+      --text-dark: #14432a;
+      --shadow-green: rgba(28, 124, 93, 0.3);
+      --border-radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--background-start), var(--background-end));
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--white);
+      max-width: 700px;
+      width: 100%;
+      padding: 40px 50px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 15px 40px var(--shadow-green);
+      border: 3px solid var(--primary-green);
+      transition: box-shadow 0.3s ease;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-green);
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 35px;
+    }
+
+    .profile-section {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 35px;
+    }
+
+    .profile-img-wrapper {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      border-radius: 15px;
+      border: 4px solid var(--primary-green);
+      overflow: hidden;
+      background: #f3f9f5;
+    }
+
+    .profile-img-wrapper input[type="file"] {
+      display: none;
+    }
+
+    .profile-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-info strong {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--primary-green-dark);
+      margin-bottom: 5px;
+    }
+
+    #usernameDisplay {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-green);
+    }
+
+    .field {
+      margin-bottom: 25px;
+    }
+
+    .field label {
+      display: block;
+      font-weight: 600;
+      color: var(--primary-green-dark);
+      margin-bottom: 10px;
+    }
+
+    .field input[type="text"],
+    .field textarea,
+    .field select {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 1rem;
+      border-radius: 15px;
+      border: 2px solid var(--primary-green-light);
+      background: #f3f9f5;
+      color: var(--text-dark);
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      cursor: pointer;
+      border-radius: 25px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      color: var(--white);
+      background: var(--primary-green);
+      box-shadow: 0 5px 15px var(--shadow-green);
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: var(--primary-green-light);
+    }
+
+    .delete-button {
+      background: #e76a6a;
+    }
+
+    .delete-button:hover {
+      background: #d15555;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 15px;
+      text-align: center;
+      max-width: 300px;
+      width: 100%;
+    }
+
+    .modal-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Akun Saya</h1>
+    <div class="profile-section">
+      <div class="profile-img-wrapper">
+        <img src="https://via.placeholder.com/90" alt="Foto Profil" id="profilePicPreview" />
+      </div>
+      
+      <div class="profile-info">
+        <strong>Nama Pengguna:</strong>
+        <div id="usernameDisplay">pengguna123</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="username">Ubah Nama Pengguna</label>
+      <input type="text" id="username" placeholder="Nama pengguna baru" />
+    </div>
+
+    <div class="field">
+      <label for="bio">Bio / Catatan</label>
+      <textarea id="bio" rows="4"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="tipePengguna">Tipe Pengguna</label>
+      <select id="tipePengguna">
+        <option value="pelajar">Pelajar</option>
+        <option value="mahasiswa">Mahasiswa</option>
+        <option value="pekerja">Pekerja</option>
+        <option value="freelancer">Freelancer</option>
+        <option value="lainnya">Lainnya</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="target">Target Keuangan</label>
+      <input type="text" id="target" placeholder="Contoh: Menabung untuk liburan, rumah, dll" />
+    </div>
+
+    <div class="buttons">
+      <button id="saveBtn" type="submit">Simpan Perubahan</button>
+      <button id="backBtn">Kembali ke Beranda</button>
+      <button class="delete-button" id="deleteBtn">Hapus Akun</button>
+    </div>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <p id="modalText">Yakin anda ingin menghapus akun?</p>
+      <div class="modal-buttons">
+        <button id="yesBtn">Ya</button>
+        <button id="noBtn">Tidak</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const profilePicInput = document.getElementById('profilePicInput');
+      const profilePicPreview = document.getElementById('profilePicPreview');
+      const usernameInput = document.getElementById('username');
+      const usernameDisplay = document.getElementById('usernameDisplay');
+      const bioInput = document.getElementById('bio');
+      const tipePenggunaInput = document.getElementById('tipePengguna');
+      const targetInput = document.getElementById('target');
+      const modal = document.getElementById('modal');
+      const modalText = document.getElementById('modalText');
+      let currentAction = '';
+  
+      const saveBtn = document.getElementById('saveBtn');
+      const deleteBtn = document.getElementById('deleteBtn');
+      const yesBtn = document.getElementById('yesBtn');
+      const noBtn = document.getElementById('noBtn');
+      const backBtn = document.getElementById('backBtn');
+  
+      // LOAD DATA dari localStorage
+      const savedProfile = JSON.parse(localStorage.getItem('userProfile'));
+      const namaPengguna = localStorage.getItem('namaPengguna');
+      const avatarPengguna = localStorage.getItem('avatarPengguna');
+  
+      if (savedProfile) {
+        if (savedProfile.username) {
+          usernameDisplay.textContent = savedProfile.username;
+          usernameInput.value = savedProfile.username;
+        }
+        if (savedProfile.bio) bioInput.value = savedProfile.bio;
+        if (savedProfile.tipePengguna) tipePenggunaInput.value = savedProfile.tipePengguna;
+        if (savedProfile.target) targetInput.value = savedProfile.target;
+      }
+  
+      if (avatarPengguna) profilePicPreview.src = avatarPengguna;
+      if (namaPengguna) {
+        usernameDisplay.textContent = namaPengguna;
+        usernameInput.value = namaPengguna;
+      }
+  
+      profilePicInput.addEventListener('change', () => {
+        const file = profilePicInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = e => {
+            profilePicPreview.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+  
+      usernameInput.addEventListener('input', () => {
+        usernameDisplay.textContent = usernameInput.value.trim() || 'pengguna123';
+      });
+  
+      saveBtn.addEventListener('click', () => {
+        const userData = {
+          profilePic: profilePicPreview.src,
+          username: usernameInput.value.trim() || 'pengguna123',
+          bio: bioInput.value.trim(),
+          tipePengguna: tipePenggunaInput.value,
+          target: targetInput.value.trim()
+        };
+  
+        localStorage.setItem('userProfile', JSON.stringify(userData));
+        localStorage.setItem('namaPengguna', userData.username);
+        localStorage.setItem('avatarPengguna', userData.profilePic);
+        alert('Perubahan disimpan!');
+      });
+  
+      deleteBtn.addEventListener('click', () => {
+        modalText.textContent = 'Yakin anda ingin menghapus akun?';
+        modal.style.display = 'flex';
+        currentAction = 'delete';
+      });
+  
+      yesBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        if (currentAction === 'delete') {
+          localStorage.removeItem('userProfile');
+          localStorage.removeItem('namaPengguna');
+          localStorage.removeItem('avatarPengguna');
+          alert('Akun berhasil dihapus.');
+          location.reload();
+        }
+      });
+  
+      noBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+  
+      backBtn.addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
+    });
+  </script>
+  
+</body>
+
+</html>

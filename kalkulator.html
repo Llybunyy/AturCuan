@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Soft UI</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #38556c, #58eecb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Tombol back fixed di kiri atas */
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: #81abdb;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+      z-index: 1000;
+    }
+
+    .back-button:hover {
+      background-color: #81acdd;
+      transform: scale(1.05);
+    }
+
+    .calculator {
+      background: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+
+    .display {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 15px 20px;
+      font-size: 2rem;
+      text-align: right;
+      margin-bottom: 15px;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 20px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: scale(1.03);
+    }
+
+    .number {
+      background: #e0e8ff;
+    }
+
+    .operator {
+      background: #c8facc;
+    }
+
+    .equal {
+      background: #b6f2ce;
+    }
+
+    .backspace {
+      background: #f8caca;
+      grid-column: span 4;
+    }
+
+    @media (max-width: 400px) {
+      .calculator {
+        width: 90%;
+        padding: 15px;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 1rem;
+      }
+
+      .display {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="back-button" onclick="goBack()">← Kembali ke beranda</button>
+
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="operator" onclick="appendOperator('+')">+</button>
+      <button class="number" onclick="appendNumber('1')">1</button>
+      <button class="number" onclick="appendNumber('2')">2</button>
+      <button class="number" onclick="appendNumber('3')">3</button>
+
+      <button class="operator" onclick="appendOperator('-')">−</button>
+      <button class="number" onclick="appendNumber('4')">4</button>
+      <button class="number" onclick="appendNumber('5')">5</button>
+      <button class="number" onclick="appendNumber('6')">6</button>
+
+      <button class="operator" onclick="appendOperator('*')">×</button>
+      <button class="number" onclick="appendNumber('7')">7</button>
+      <button class="number" onclick="appendNumber('8')">8</button>
+      <button class="number" onclick="appendNumber('9')">9</button>
+
+      <button class="operator" onclick="appendOperator('/')">÷</button>
+      <button class="number" onclick="appendNumber('.')">.</button>
+      <button class="number" onclick="appendNumber('0')">0</button>
+      <button class="equal" onclick="calculate()">=</button>
+
+      <button class="backspace" onclick="backspace()">←</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    let currentInput = '';
+
+    function updateDisplay() {
+      display.textContent = currentInput || '0';
+    }
+
+    function appendNumber(num) {
+      currentInput += num;
+      updateDisplay();
+    }
+
+    function appendOperator(op) {
+      if (currentInput !== '' && !/[\+\-\*\/] $/.test(currentInput.slice(-2))) {
+        currentInput += ' ' + op + ' ';
+        updateDisplay();
+      }
+    }
+
+    function clearDisplay() {
+      currentInput = '';
+      updateDisplay();
+    }
+
+    function backspace() {
+      currentInput = currentInput.trimEnd().slice(0, -1);
+      updateDisplay();
+    }
+
+    function calculate() {
+      try {
+        currentInput = eval(currentInput).toString();
+      } catch {
+        currentInput = 'Error';
+      }
+      updateDisplay();
+    }
+
+    function goBack() {
+      window.location.href = 'index.html'; // Ganti sesuai halaman beranda kamu
+      // atau bisa pake window.history.back();
+    }
+
+    document.addEventListener('keydown', function(e) {
+      const key = e.key;
+      if (!isNaN(key) || key === '.') {
+        appendNumber(key);
+      } else if (['+', '-', '*', '/'].includes(key)) {
+        appendOperator(key);
+      } else if (key === 'Enter') {
+        e.preventDefault();
+        calculate();
+      } else if (key === 'Backspace') {
+        backspace();
+      } else if (key === 'Delete') {
+        clearDisplay();
+      }
+    });
+  </script>
+</body>
+</html>

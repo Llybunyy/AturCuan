@@ -1,0 +1,279 @@
+.desktop {
+  width: 1366px;
+  height: 768px;
+  background-color: #ffffff;
+}
+
+.desktop .overlap {
+  position: relative;
+  height: 768px;
+}
+
+.desktop .business-event {
+  position: absolute;
+  width: 1357px;
+  height: 768px;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+
+.desktop .rectangle {
+  position: absolute;
+  width: 1366px;
+  height: 768px;
+  top: 0;
+  left: 0;
+  background-color: #4c9a82eb;
+}
+
+.desktop .frame {
+  position: absolute;
+  width: 1060px;
+  height: 504px;
+  top: 21px;
+  left: 75px;
+  overflow: hidden;
+}
+
+.desktop .gg-list {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 397px;
+  left: 801px;
+}
+
+.desktop .gg-girl {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 347px;
+  left: 684px;
+}
+
+.desktop .div {
+  position: absolute;
+  width: 63px;
+  height: 63px;
+  top: 514px;
+  left: 602px;
+}
+
+.desktop .aragonai {
+  position: absolute;
+  width: 135px;
+  height: 92px;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+
+.desktop .text-wrapper {
+  position: absolute;
+  height: 45px;
+  top: 582px;
+  left: 750px;
+  font-family: "Poppins-Medium", Helvetica;
+  font-weight: 500;
+  color: #b1b1b1;
+  font-size: 30px;
+  letter-spacing: 0;
+  line-height: 45px;
+  white-space: nowrap;
+}
+
+.desktop .gg-play-button {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  top: 903px;
+  left: -959px;
+}
+
+.desktop .overlap-group {
+  position: absolute;
+  width: 397px;
+  height: 79px;
+  top: 217px;
+  left: 330px;
+  background-image: url(./img/rectangle-22.svg);
+  background-size: 100% 100%;
+}
+
+.desktop .text-wrapper-2 {
+  position: absolute;
+  width: 326px;
+  height: 52px;
+  top: 12px;
+  left: 63px;
+  font-family: "Poppins-Medium", Helvetica;
+  font-weight: 500;
+  color: #b1b1b1;
+  font-size: 30px;
+  letter-spacing: 0;
+  line-height: 45px;
+  white-space: nowrap;
+}
+
+.desktop .vector {
+  position: absolute;
+  width: 36px;
+  height: 30px;
+  top: 24px;
+  left: 27px;
+}
+
+.desktop .img {
+  position: absolute;
+  width: 410px;
+  height: 78px;
+  top: 352px;
+  left: 409px;
+}
+
+.desktop .vector-2 {
+  position: absolute;
+  width: 34px;
+  height: 32px;
+  top: 376px;
+  left: 432px;
+}
+
+.desktop .group {
+  position: absolute;
+  width: 311px;
+  height: 163px;
+  top: 364px;
+  left: 489px;
+}
+
+.desktop .text-wrapper-3 {
+  position: absolute;
+  height: 45px;
+  top: 9px;
+  left: 0;
+  font-family: "Poppins-Medium", Helvetica;
+  font-weight: 500;
+  color: #b1b1b1;
+  font-size: 30px;
+  letter-spacing: 0;
+  line-height: 45px;
+  white-space: nowrap;
+}
+
+.desktop .gg-play-button-2 {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  top: 0;
+  left: 254px;
+}
+
+.desktop .vector-3 {
+  position: absolute;
+  width: 14px;
+  height: 3px;
+  top: 160px;
+  left: 71px;
+}
+.desktop {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.desktop .overlap-group-wrapper {
+  background-color: #ffffff;
+  width: 1280px;
+  height: 800px;
+}
+
+.desktop .overlap-group {
+  position: relative;
+  height: 800px;
+  background-image: url(./img/business-event-website-4-1.png);
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.desktop .rectangle {
+  position: absolute;
+  width: 1138px;
+  height: 689px;
+  top: 56px;
+  left: 66px;
+  background-blend-mode: multiply;
+}
+
+.desktop .frame {
+  position: absolute;
+  width: 1010px;
+  height: 536px;
+  top: 80px;
+  left: 128px;
+}
+
+.desktop .group {
+  position: absolute;
+  width: 33px;
+  height: 34px;
+  top: 20px;
+  left: 47px;
+}
+
+.desktop .whatsapp-image {
+  position: absolute;
+  width: 206px;
+  height: 207px;
+  top: 113px;
+  left: 204px;
+  object-fit: cover;
+}
+
+.desktop .img {
+  width: 195px;
+  height: 195px;
+  top: 113px;
+  left: 610px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.desktop .whatsapp-image-2 {
+  width: 198px;
+  height: 191px;
+  top: 345px;
+  left: 204px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.desktop .whatsapp-image-3 {
+  width: 199px;
+  height: 198px;
+  top: 338px;
+  left: 605px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.marquee p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
